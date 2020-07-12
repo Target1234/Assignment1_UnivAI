@@ -1,9 +1,7 @@
 """
 The Vector class lets us do common operations such as
 addition, scalar multiplications and dot products.
->>> v1 = Vector([4, 2, 7])
->>> v2 = Vector([1, -1, 3])
->>> v1+v2
+
 Vector([5, 1, 10])
 >>> v1 + [-1, -1, 3]
 Vector([3, 1, 10])
@@ -14,11 +12,6 @@ Vector([4, 3, 9])
 >>> v1 + range(2)
 Vector([4, 3, 7])
 >>> range(2) + v1
-Vector([4, 3, 7])
->>> λ = 3
->>> v1*λ
-Vector([12, 6, 21])
->>> λ*v1
 Vector([12, 6, 21])
 >>> v1@v2
 23
@@ -79,12 +72,10 @@ class Vector:
         return self._storage[i]
 
     def __add__(self, other_vector):
-        """
-        Adding 2 vectors, pads to longest length
-        """
+        "Adding 2 vectors, pads to longest length"
         try:
             left, right = pad_vectors(self, other_vector)
-            return np.add(left,right)
+            return Vector(np.add(left,right))
         except TypeError:
             return NotImplemented
     
@@ -95,13 +86,15 @@ class Vector:
     
     def __mul__(self, scalar):
         "Multiply Vector by a scalar"
-        return Vector([item*scalar for item in self._storage])
+        return Vector(np.multiply(self,scalar))
 
     def __rmul__(self, scalar):
         "multiply scalar by a vector"
-        return self*scalar
+        return Vector(np.multiply(self, scalar))
 
     def __matmul__(self, other_vector): 
+        
+        "Dot product of 2 vectors (Matrix Multiplication)"
         try:
             return np.dot(self, other_vector)
         except TypeError:
@@ -110,8 +103,8 @@ class Vector:
     def __rmatmul__(self, other_vector):
         return np.dot(self, other_vector)
     
-    def norm(self):
-        return np.linalg.norm(self._storage)
+    def mod(self):
+        return np.linalg.norm(self)
 
 
 
